@@ -48,4 +48,13 @@ public class PaisesController : ControllerBase
         }
         return Ok(pais);
     }
+
+    [HttpDelete("id/{id}")]
+    public async Task<ActionResult<Pais>> EliminarPais(int id)
+    {
+        var pais = await _repository.ObtenerPorId(id);
+        if (pais != null) await _repository.Eliminar(pais);
+
+        return Ok(pais);
+    }
 }

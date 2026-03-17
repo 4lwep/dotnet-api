@@ -7,13 +7,11 @@ public class EmpresasController : ControllerBase
 {
     private readonly IRepository<Empresa> _repository;
     private readonly IEmpresaRepository _empresaRepository;
-    private readonly BibliotecaContext _db;
 
     public EmpresasController(IRepository<Empresa> repository, IEmpresaRepository empresaRepository, BibliotecaContext db)
     {
         _repository = repository;
         _empresaRepository = empresaRepository;
-        _db = db;
     }
 
     [HttpGet]
@@ -43,17 +41,10 @@ public class EmpresasController : ControllerBase
     }
 
     [HttpGet("pais/{pais}")]
-    public ActionResult<IEnumerable<Empresa>> GetEmpresasPorPais(string pais)
+    public async Task<ActionResult<IEnumerable<Empresa>>> GetEmpresasPorPais(string pais)
     {
-        var empresas = _db.empresa.AsNoTracking().Where(e => e.Empresa_Pais_Origen == pais).ToList();
+        var empresas = await _empresaRepository.ObtenerEmpresasPorPais(pais);
         return Ok(empresas);
-    }
-
-    [HttpGet("/paises_old")]
-    public ActionResult<IEnumerable<string>> GetPaisesOld()
-    {
-        var paises = _db.empresa.AsNoTracking().Select(e => e.Empresa_Pais_Origen).Distinct().ToList();
-        return Ok(paises);
     }
 
     [HttpGet("nombre/{nombre}")]
@@ -64,6 +55,15 @@ public class EmpresasController : ControllerBase
         {
             return NotFound();
         }
+        return Ok(empresa);
+    }
+
+    [HttpDelete("id/{id}")]
+    public async Task<ActionResult<Empresa>> EliminarEmpresa(int id)
+    {
+        var empresa = await _repository.ObtenerPorId(id);
+        if (empresa != null) await _repository.Eliminar(empresa);
+
         return Ok(empresa);
     }
 }
