@@ -8,10 +8,10 @@ public class BibliotecaContext : DbContext {
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.HasDefaultSchema("biblioteca");
+        modelBuilder.HasDefaultSchema("public");
 
         
     }
-    public DbSet<Empresa> empresa { get; set; } 
+    public DbSet<Empresa> empresa { get; set; }  
     public DbSet<Pais> pais { get; set; }
 }
