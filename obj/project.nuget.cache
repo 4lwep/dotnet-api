@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "SUTqCvpMrb0=",
+  "dgSpecHash": "j8ktDoypv8E=",
   "success": true,
-  "projectFilePath": "/home/alfre/practicas/MiApi/MiApi.csproj",
+  "projectFilePath": "/home/alfre/practicas/MiApiIA/MiApi.csproj",
   "expectedPackageFiles": [
     "/home/alfre/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
     "/home/alfre/.nuget/packages/microsoft.aspnetcore.openapi/10.0.4/microsoft.aspnetcore.openapi.10.0.4.nupkg.sha512",

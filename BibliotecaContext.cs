@@ -12,6 +12,6 @@ public class BibliotecaContext : DbContext {
 
         
     }
-    public DbSet<Empresa> empresa { get; set; }  
+    public DbSet<Empresa> empresa { get; set; }
     public DbSet<Pais> pais { get; set; }
 }

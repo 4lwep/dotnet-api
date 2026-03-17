@@ -2759,11 +2759,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/alfre/practicas/MiApi/MiApi.csproj",
+      "projectUniqueName": "/home/alfre/practicas/MiApiIA/MiApi.csproj",
       "projectName": "MiApi",
-      "projectPath": "/home/alfre/practicas/MiApi/MiApi.csproj",
+      "projectPath": "/home/alfre/practicas/MiApiIA/MiApi.csproj",
       "packagesPath": "/home/alfre/.nuget/packages/",
-      "outputPath": "/home/alfre/practicas/MiApi/obj/",
+      "outputPath": "/home/alfre/practicas/MiApiIA/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/alfre/.nuget/NuGet/NuGet.Config"
