@@ -20,4 +20,9 @@ public class PaisRepository : Repository<Pais>, IPaisRepository
     {
         return await _db.empresa.AsNoTracking().Where(e => e.Empresa_Pais_Origen == nombrePais).ToListAsync();
     }
+
+    public override async Task<IEnumerable<Pais>> ObtenerTodos()
+    {
+        return await _db.pais.Include(p => p.Pais_Empresas).ToListAsync();
+    }
 }

@@ -16,7 +16,7 @@ public class PaisesController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Pais>>> GetPaises()
     {
-        var paises = await _repository.ObtenerTodos();
+        var paises = await _paisRepository.ObtenerTodos();
         return Ok(paises);
     }
 

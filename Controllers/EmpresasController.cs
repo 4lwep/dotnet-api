@@ -37,6 +37,7 @@ public class EmpresasController : ControllerBase
     {
         empresa.Empresa_Fecha_Creacion = DateTime.SpecifyKind(empresa.Empresa_Fecha_Creacion, DateTimeKind.Utc);
         var creada = await _repository.Agregar(empresa);
+        await _empresaRepository.AgregarEmpresaAPais(empresa);
         return Ok(creada);
     }
 
