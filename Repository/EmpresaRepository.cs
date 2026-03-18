@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-public interface IEmpresaRepository
+public interface IEmpresaRepository : IRepository<Empresa>
 {
     public Task<Empresa?> ObtenerEmpresaPorNombre(string nombre);
 
@@ -21,5 +21,11 @@ public class EmpresaRepository : Repository<Empresa>, IEmpresaRepository
     public async Task<IEnumerable<Empresa>?> ObtenerEmpresasPorPais(string nombrePais)
     {
         return await _db.empresa.AsNoTracking().Where(e => e.Empresa_Pais_Origen == nombrePais).ToListAsync();
+    }
+
+    public override async Task<IEnumerable<Empresa>> ObtenerTodos()
+    {
+        var empresas = await _db.empresa.Include(e => e.Empresa_Pais).ToListAsync();
+        return empresas;
     }
 }

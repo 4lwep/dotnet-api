@@ -17,7 +17,7 @@ public class EmpresasController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Empresa>>> GetEmpresas()
     {
-        var empresas = await _repository.ObtenerTodos();
+        var empresas = await _empresaRepository.ObtenerTodos();
         return Ok(empresas);
     }
 

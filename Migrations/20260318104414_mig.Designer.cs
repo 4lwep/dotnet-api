@@ -11,15 +11,15 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MiApi.Migrations
 {
     [DbContext(typeof(BibliotecaContext))]
-    [Migration("20260316094355_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20260318104414_mig")]
+    partial class mig
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasDefaultSchema("biblioteca")
+                .HasDefaultSchema("public")
                 .HasAnnotation("ProductVersion", "10.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
@@ -45,9 +45,49 @@ namespace MiApi.Migrations
                     b.Property<string>("Empresa_Pais_Origen")
                         .HasColumnType("text");
 
+                    b.Property<int>("Pais_Id")
+                        .HasColumnType("integer");
+
                     b.HasKey("Empresa_Id");
 
-                    b.ToTable("empresa", "biblioteca");
+                    b.HasIndex("Pais_Id");
+
+                    b.ToTable("empresa", "public");
+                });
+
+            modelBuilder.Entity("Pais", b =>
+                {
+                    b.Property<int>("Pais_Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Pais_Id"));
+
+                    b.Property<int>("Pais_Habitantes")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Pais_Nombre")
+                        .HasColumnType("text");
+
+                    b.HasKey("Pais_Id");
+
+                    b.ToTable("pais", "public");
+                });
+
+            modelBuilder.Entity("Empresa", b =>
+                {
+                    b.HasOne("Pais", "Empresa_Pais")
+                        .WithMany("Pais_Empresas")
+                        .HasForeignKey("Pais_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Empresa_Pais");
+                });
+
+            modelBuilder.Entity("Pais", b =>
+                {
+                    b.Navigation("Pais_Empresas");
                 });
 #pragma warning restore 612, 618
         }

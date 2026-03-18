@@ -11,15 +11,15 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MiApi.Migrations
 {
     [DbContext(typeof(BibliotecaContext))]
-    [Migration("20260316125306_AgregadosPaises")]
-    partial class AgregadosPaises
+    [Migration("20260318095255_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasDefaultSchema("biblioteca")
+                .HasDefaultSchema("public")
                 .HasAnnotation("ProductVersion", "10.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
@@ -29,64 +29,58 @@ namespace MiApi.Migrations
                 {
                     b.Property<int>("Empresa_Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("empresa_id");
+                        .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Empresa_Id"));
 
                     b.Property<DateTime>("Empresa_Fecha_Creacion")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("empresa_fecha_creacion");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Empresa_Logo")
-                        .HasColumnType("text")
-                        .HasColumnName("empresa_logo");
+                        .HasColumnType("text");
 
                     b.Property<string>("Empresa_Nombre")
-                        .HasColumnType("text")
-                        .HasColumnName("empresa_nombre");
-
-                    b.Property<int?>("Empresa_PaisPais_Id")
-                        .HasColumnType("integer");
+                        .HasColumnType("text");
 
                     b.Property<string>("Empresa_Pais_Origen")
-                        .HasColumnType("text")
-                        .HasColumnName("empresa_pais_origen");
+                        .HasColumnType("text");
+
+                    b.Property<int>("Pais_Id")
+                        .HasColumnType("integer");
 
                     b.HasKey("Empresa_Id");
 
-                    b.HasIndex("Empresa_PaisPais_Id");
+                    b.HasIndex("Pais_Id");
 
-                    b.ToTable("empresa", "biblioteca");
+                    b.ToTable("empresa", "public");
                 });
 
             modelBuilder.Entity("Pais", b =>
                 {
                     b.Property<int>("Pais_Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("pais_id");
+                        .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Pais_Id"));
 
                     b.Property<int>("Pais_Habitantes")
-                        .HasColumnType("integer")
-                        .HasColumnName("pais_habitantes");
+                        .HasColumnType("integer");
 
                     b.Property<string>("Pais_Nombre")
-                        .HasColumnType("text")
-                        .HasColumnName("pais_nombre");
+                        .HasColumnType("text");
 
                     b.HasKey("Pais_Id");
 
-                    b.ToTable("Pais", "biblioteca");
+                    b.ToTable("pais", "public");
                 });
 
             modelBuilder.Entity("Empresa", b =>
                 {
                     b.HasOne("Pais", "Empresa_Pais")
                         .WithMany("Pais_Empresas")
-                        .HasForeignKey("Empresa_PaisPais_Id");
+                        .HasForeignKey("Pais_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Empresa_Pais");
                 });

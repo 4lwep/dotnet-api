@@ -19,7 +19,7 @@ public class Repository<T> : IRepository<T> where T : class
     {
         _db = db;
     }
-    public async Task<IEnumerable<T>> ObtenerTodos()
+    public virtual async Task<IEnumerable<T>> ObtenerTodos()
     {
         return await _db.Set<T>().ToListAsync();
     }

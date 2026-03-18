@@ -9,6 +9,8 @@ builder.Services.AddOpenApi();
 builder.Services.AddDbContext<BibliotecaContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"), 
         npgsqlOptions => npgsqlOptions.MigrationsHistoryTable("__EFMigrationsHistory", "biblioteca")));
+builder.Services.AddControllers().AddJsonOptions(x =>
+   x.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles);
 
 // Registrar repositorios
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));

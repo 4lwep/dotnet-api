@@ -5,7 +5,7 @@
 namespace MiApi.Migrations
 {
     /// <inheritdoc />
-    public partial class CambioBD2 : Migration
+    public partial class mig : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
