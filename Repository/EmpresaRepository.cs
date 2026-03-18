@@ -25,7 +25,6 @@ public class EmpresaRepository : Repository<Empresa>, IEmpresaRepository
 
     public override async Task<IEnumerable<Empresa>> ObtenerTodos()
     {
-        var empresas = await _db.empresa.Include(e => e.Empresa_Pais).ToListAsync();
-        return empresas;
+        return await _db.empresa.Include(e => e.Empresa_Pais).ToListAsync();
     }
 }
