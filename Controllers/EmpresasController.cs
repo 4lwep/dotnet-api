@@ -1,30 +1,27 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 [ApiController]
 [Route("[controller]")]
 public class EmpresasController : ControllerBase
 {
-    private readonly IRepository<Empresa> _repository;
-    private readonly IEmpresaRepository _empresaRepository;
+    private readonly IEmpresaService _empresaService;
 
-    public EmpresasController(IRepository<Empresa> repository, IEmpresaRepository empresaRepository, BibliotecaContext db)
+    public EmpresasController(IEmpresaService empresaService)
     {
-        _repository = repository;
-        _empresaRepository = empresaRepository;
+        _empresaService = empresaService;
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Empresa>>> GetEmpresas()
+    public async Task<ActionResult<IEnumerable<EmpresaDTO>>> GetEmpresas()
     {
-        var empresas = await _empresaRepository.ObtenerTodos();
+        var empresas = await _empresaService.ObtenerTodos();
         return Ok(empresas);
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<Empresa>> GetEmpresa(int id)
+    public async Task<ActionResult<EmpresaDTO>> GetEmpresa(int id)
     {
-        var empresa = await _repository.ObtenerPorId(id);
+        var empresa = await _empresaService.ObtenerPorId(id);
         if (empresa == null)
         {
             return NotFound();
@@ -33,25 +30,25 @@ public class EmpresasController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<Empresa>> PostEmpresa(Empresa empresa)
+    public async Task<ActionResult<EmpresaDTO>> PostEmpresa(EmpresaDTO empresa)
     {
         empresa.Empresa_Fecha_Creacion = DateTime.SpecifyKind(empresa.Empresa_Fecha_Creacion, DateTimeKind.Utc);
-        var creada = await _repository.Agregar(empresa);
-        await _empresaRepository.AgregarEmpresaAPais(empresa);
+        var creada = await _empresaService.Agregar(empresa);
+        await _empresaService.AgregarEmpresaAPais(empresa);
         return Ok(creada);
     }
 
     [HttpGet("pais/{pais}")]
-    public async Task<ActionResult<IEnumerable<Empresa>>> GetEmpresasPorPais(string pais)
+    public async Task<ActionResult<IEnumerable<EmpresaDTO>>> GetEmpresasPorPais(string pais)
     {
-        var empresas = await _empresaRepository.ObtenerEmpresasPorPais(pais);
+        var empresas = await _empresaService.ObtenerEmpresasPorPais(pais);
         return Ok(empresas);
     }
 
     [HttpGet("nombre/{nombre}")]
-    public async Task<ActionResult<Empresa>> GetEmpresaPorNombre(string nombre)
+    public async Task<ActionResult<EmpresaDTO>> GetEmpresaPorNombre(string nombre)
     {
-        var empresa = await _empresaRepository.ObtenerEmpresaPorNombre(nombre);
+        var empresa = await _empresaService.ObtenerEmpresaPorNombre(nombre);
         if (empresa == null)
         {
             return NotFound();
@@ -60,10 +57,10 @@ public class EmpresasController : ControllerBase
     }
 
     [HttpDelete("id/{id}")]
-    public async Task<ActionResult<Empresa>> EliminarEmpresa(int id)
+    public async Task<ActionResult<EmpresaDTO>> EliminarEmpresa(int id)
     {
-        var empresa = await _repository.ObtenerPorId(id);
-        if (empresa != null) await _repository.Eliminar(empresa);
+        var empresa = await _empresaService.ObtenerPorId(id);
+        if (empresa != null) await _empresaService.Eliminar(empresa);
 
         return Ok(empresa);
     }

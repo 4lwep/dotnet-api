@@ -4,26 +4,24 @@ using Microsoft.AspNetCore.Mvc;
 [Route("[controller]")]
 public class PaisesController : ControllerBase
 {
-    private readonly IRepository<Pais> _repository;
-    private readonly IPaisRepository _paisRepository;
+    private readonly IPaisService _paisService;
 
-    public PaisesController(IRepository<Pais> repository, IPaisRepository paisRepository)
+    public PaisesController(IPaisService paisService)
     {
-        _repository = repository;
-        _paisRepository = paisRepository;
+        _paisService = paisService;
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Pais>>> GetPaises()
+    public async Task<ActionResult<IEnumerable<PaisDTO>>> GetPaises()
     {
-        var paises = await _paisRepository.ObtenerTodos();
+        var paises = await _paisService.ObtenerTodos();
         return Ok(paises);
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<Pais>> GetPais(int id)
+    public async Task<ActionResult<PaisDTO>> GetPais(int id)
     {
-        var pais = await _repository.ObtenerPorId(id);
+        var pais = await _paisService.ObtenerPorId(id);
         if (pais == null)
         {
             return NotFound();
@@ -32,16 +30,16 @@ public class PaisesController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<Pais>> PostPais(Pais pais)
+    public async Task<ActionResult<PaisDTO>> PostPais(PaisDTO pais)
     {
-        var creado = await _repository.Agregar(pais);
+        var creado = await _paisService.Agregar(pais);
         return Ok(creado);
     }
 
     [HttpGet("nombre/{nombre}")]
-    public async Task<ActionResult<Pais>> GetPaisPorNombre(string nombre)
+    public async Task<ActionResult<PaisDTO>> GetPaisPorNombre(string nombre)
     {
-        var pais = await _paisRepository.ObtenerPaisPorNombre(nombre);
+        var pais = await _paisService.ObtenerPaisPorNombre(nombre);
         if (pais == null)
         {
             return NotFound();
@@ -50,10 +48,10 @@ public class PaisesController : ControllerBase
     }
 
     [HttpDelete("id/{id}")]
-    public async Task<ActionResult<Pais>> EliminarPais(int id)
+    public async Task<ActionResult<PaisDTO>> EliminarPais(int id)
     {
-        var pais = await _repository.ObtenerPorId(id);
-        if (pais != null) await _repository.Eliminar(pais);
+        var pais = await _paisService.ObtenerPorId(id);
+        if (pais != null) await _paisService.Eliminar(pais);
 
         return Ok(pais);
     }

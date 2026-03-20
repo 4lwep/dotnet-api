@@ -264,3 +264,4 @@
 /home/alfre/practicas/MiApiIA/obj/Debug/net10.0/MiApi.pdb
 /home/alfre/practicas/MiApiIA/obj/Debug/net10.0/MiApi.genruntimeconfig.cache
 /home/alfre/practicas/MiApiIA/obj/Debug/net10.0/ref/MiApi.dll
+/home/alfre/practicas/MiApiIA/bin/Debug/net10.0/AutoMapper.dll
